@@ -1,3 +1,4 @@
+
 const form = document.getElementById('signin__form');
 const signin = document.getElementById('signin');
 const btn = document.getElementById('signin__btn');
@@ -5,7 +6,12 @@ const welcome = document.getElementById('welcome');
 const userId = document.getElementById('user_id');
 
 let user = localStorage.userId;
-signin.classList.add('signin_active');
+
+if(user){
+  welcomeFunc();
+} else {
+  signin.classList.add('signin_active');
+}
 
 function signIn(e) {
     e.preventDefault();
@@ -23,12 +29,17 @@ function signIn(e) {
                 alert('Неверный логин или пароль');
             } else {
                 localStorage.userId = response.user_id;
-                signin.classList.remove('signin_active');
-                welcome.classList.add('welcome_active');
-                userId.innerText = response.user_id;
+                welcomeFunc()
             }
         }
     })
 }
 
-btn.addEventListener('click', signIn);
+function welcomeFunc() {
+  signin.classList.remove('signin_active');
+  welcome.classList.add('welcome_active');
+  userId.textContent = `${user}`;
+}
+
+form.addEventListener ('submit', signIn);
+
